@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { RequestSchema } from "../middleware/validate";
+import { RequestSchemas } from "../middleware/validate";
 
 /**
  * @openapi
@@ -35,7 +35,7 @@ import { RequestSchema } from "../middleware/validate";
  *           description: The rating of the movie for the review
  *           example: 10
  */
-export const reviewSchemas: Record<string, RequestSchema> = {
+export const reviewSchemas: Record<string, RequestSchemas> = {
     // POST /api/v1/reviews - Create new Review
     create: {
         body: Joi.object({

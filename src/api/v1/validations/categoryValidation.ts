@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { RequestSchema } from "../middleware/validate";
+import { RequestSchemas } from "../middleware/validate";
 
 /**
  * @openapi
@@ -20,7 +20,7 @@ import { RequestSchema } from "../middleware/validate";
  *           description: The name of the category
  *           example: "Supernatural"
  */
-export const categorySchemas: Record<string, RequestSchema> = {
+export const categorySchemas: Record<string, RequestSchemas> = {
     // POST /api/v1/categories - Create new Category
     create: {
         body: Joi.object({
