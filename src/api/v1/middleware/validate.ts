@@ -3,101 +3,102 @@ import { ObjectSchema } from "joi";
 import { MiddlewareFunction } from "../types/express";
 import { HTTP_STATUS } from "../../../constants/httpConstants";
 
-export interface RequestSchema {
+export interface RequestSchemas {
     body?: ObjectSchema;
     params?: ObjectSchema;
     query?: ObjectSchema;
 }
 
-interface ValidationOptions {
+export interface ValidationOptions {
     stripBody?: boolean;
     stripQuery?: boolean;
     stripParams?: boolean;
 }
 
 /**
- * Create en Express middleware function that validates different parts of the request against separate Joi schemas and strips unknown fields appropriately
+ * Creates an Express middleware function that validates different parts of the request
+ * against separate Joi schemas and strips unknown fields appropriately.
+ *
  * @param schemas - Object containing separate schemas for body, params, and query
- * @param options - Validation options for stripping request payloads
- * @returns Expres middleware function that performs the validation
+ * @param options - Validation options for stripping behavior
+ * @returns Express middleware function that performs the validation
  */
 export const validateRequest = (
-    schemas: RequestSchema,
+    schemas: RequestSchemas,
     options: ValidationOptions = {}
 ): MiddlewareFunction => {
-    const STRIP_BODY: boolean = true;
-    const STRIP_PARAMS: boolean = true;
-    const STRIP_QUERY: boolean = false;
+    // stripParams - Usually don't strip params as they're route-defined
+    const defaultOptions = {
+        stripBody: true,
+        stripQuery: true,
+        stripParams: false,
+        ...options,
+    };
 
-    // returns a Middleware Function
     return (req: Request, res: Response, next: NextFunction) => {
         try {
             const errors: string[] = [];
 
             /**
-             * Validate a specific part of the request against a Joi schema
-             * @param validationSchema - Joi schema to validate against
-             * @param requestData - The request data to validate
-             * @param requestSectionName - Name of the request part for error prefixing
-             * @param shouldStripFields - Whether to strip unknown fields from the validated data
-             * @returns The original data if validation fails or stripping id disabled, otherwise the stripped/validated data
+             * Validates a specific part of the request against a Joi schema
+             * @param schema - Joi schema to validate against
+             * @param data - The request data to validate
+             * @param partName - Name of the request part for error prefixing
+             * @param shouldStrip - Whether to strip unknown fields from the validated data
+             * @returns The original data if validation fails or stripping is disabled, otherwise the stripped/validated data
              */
-            const validateRequestSection = <T>(
-                validationSchema: ObjectSchema,
-                requestData: T,
-                requestSectionName: string,
-                shouldStripFields: boolean
-            ): T => {
-                // abortEarly false means continue validation even if something fails validation
-                const { error, value: strippedFields } =
-                    validationSchema.validate(requestData, {
-                        abortEarly: false,
-                        stripUnknown: shouldStripFields,
-                    });
+            const validatePart = (
+                schema: ObjectSchema,
+                data: any,
+                partName: string,
+                shouldStrip: boolean
+            ) => {
+                const { error, value } = schema.validate(data, {
+                    abortEarly: false,
+                    stripUnknown: shouldStrip,
+                });
 
                 if (error) {
                     errors.push(
                         ...error.details.map(
-                            (detail) =>
-                                `${requestSectionName}: ${detail.message}`
+                            (detail) => `${partName}: ${detail.message}`
                         )
                     );
-                } else if (shouldStripFields) {
-                    return strippedFields as T;
+                } else if (shouldStrip) {
+                    return value;
                 }
-
-                return requestData;
+                return data;
             };
 
-            // validate each request part if a schema is provided
+            // Validate each request part if schema is provided
             if (schemas.body) {
-                req.body = validateRequestSection(
+                req.body = validatePart(
                     schemas.body,
                     req.body,
                     "Body",
-                    options.stripBody ?? STRIP_BODY
+                    defaultOptions.stripBody
                 );
             }
 
             if (schemas.params) {
-                req.params = validateRequestSection(
+                req.params = validatePart(
                     schemas.params,
                     req.params,
                     "Params",
-                    options.stripParams ?? STRIP_PARAMS
+                    defaultOptions.stripParams
                 );
             }
 
             if (schemas.query) {
-                req.query = validateRequestSection(
+                req.query = validatePart(
                     schemas.query,
                     req.query,
                     "Query",
-                    options.stripQuery ?? STRIP_QUERY
+                    defaultOptions.stripQuery
                 );
             }
 
-            // If there are any validation erros, return them
+            // If there are any validation errors, return them
             if (errors.length > 0) {
                 return res.status(HTTP_STATUS.BAD_REQUEST).json({
                     error: `Validation error: ${errors.join(", ")}`,
@@ -106,11 +107,8 @@ export const validateRequest = (
 
             next();
         } catch (error: unknown) {
-            const errorMessage =
-                error instanceof Error ? error.message : String(error);
-            console.error(errorMessage);
             res.status(HTTP_STATUS.BAD_REQUEST).json({
-                message: "Error occurred during validation",
+                error: (error as Error).message,
             });
         }
     };

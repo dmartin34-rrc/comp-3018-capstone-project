@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { RequestSchema } from "../middleware/validate";
+import { RequestSchemas } from "../middleware/validate";
 
 /**
  * @openapi
@@ -20,7 +20,7 @@ import { RequestSchema } from "../middleware/validate";
  *           description: The content of the comment
  *           example: "I hate this movie so much"
  */
-export const commentSchemas: Record<string, RequestSchema> = {
+export const commentSchemas: Record<string, RequestSchemas> = {
     // POST /api/v1/comments - Create new Comment
     create: {
         body: Joi.object({
