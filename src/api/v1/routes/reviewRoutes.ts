@@ -1,6 +1,6 @@
 import express, { Router } from "express";
-// import { validateRequest } from "../middleware/validate";
-// import { reviewSchemas } from "../validations/reviewValidation";
+import { validateRequest } from "../middleware/validate";
+import { reviewSchemas } from "../validations/reviewValidation";
 import * as reviewController from "../controllers/reviewController";
 import authenticate from "../middleware/authenticate";
 import isAuthorized from "../middleware/authorize";
@@ -44,7 +44,6 @@ router.get(
         hasRole: ["user", "admin"],
         allowSameUser: true,
     } as AuthorizationOptions),
-    // validateRequest(reviewSchemas.getAllReviews),
     reviewController.getAllReviews
 );
 
@@ -55,7 +54,6 @@ router.get(
         hasRole: ["user", "admin"],
         allowSameUser: true,
     } as AuthorizationOptions),
-    // validateRequest(reviewSchemas.getReviewById),
     reviewController.getReviewById
 );
 
@@ -107,7 +105,7 @@ router.post(
         allowSameUser: true,
     } as AuthorizationOptions),
     profanityFilter(["title", "content"]),
-    // validateRequest(reviewSchemas.createReview),
+    validateRequest(reviewSchemas.createReview),
     reviewController.createReview
 );
 
@@ -119,7 +117,7 @@ router.put(
         allowSameUser: true,
     } as AuthorizationOptions),
     profanityFilter(["title", "content"]),
-    // validateRequest(reviewSchemas.updateReview),
+    validateRequest(reviewSchemas.updateReview),
     reviewController.updateReview
 );
 
@@ -130,7 +128,6 @@ router.delete(
         hasRole: ["admin"],
         allowSameUser: true,
     } as AuthorizationOptions),
-    // validateRequest(reviewSchemas.deleteReview),
     reviewController.deleteReview
 );
 

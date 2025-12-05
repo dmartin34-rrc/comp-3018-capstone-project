@@ -25,8 +25,8 @@ export const commentSchemas: Record<string, RequestSchemas> = {
     create: {
         body: Joi.object({
             comment: Joi.string().required().messages({
-                "any.required": "Content is required",
-                "string.empty": "Content cannot be empty",
+                "any.required": "Comment is required",
+                "string.empty": "Comment cannot be empty",
             }),
         }),
     },

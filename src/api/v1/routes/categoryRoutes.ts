@@ -1,6 +1,6 @@
 import express, { Router } from "express";
-// import { validateRequest } from "../middleware/validate";
-// import { categorySchemas } from "../validations/categoryValidation";
+import { validateRequest } from "../middleware/validate";
+import { categorySchemas } from "../validations/categoryValidation";
 import * as categoryController from "../controllers/categoryController";
 import authenticate from "../middleware/authenticate";
 import isAuthorized from "../middleware/authorize";
@@ -44,7 +44,6 @@ router.get(
         hasRole: ["user", "admin"],
         allowSameUser: true,
     } as AuthorizationOptions),
-    // validateRequest(categorySchemas.getAllCategories),
     categoryController.getAllCategories
 );
 
@@ -55,7 +54,6 @@ router.get(
         hasRole: ["user", "admin"],
         allowSameUser: true,
     } as AuthorizationOptions),
-    // validateRequest(categorySchemas.getCategoryById),
     categoryController.getCategoryById
 );
 
@@ -97,7 +95,7 @@ router.post(
         allowSameUser: true,
     } as AuthorizationOptions),
     profanityFilter(["name"]),
-    // validateRequest(categorySchemas.createCategory),
+    validateRequest(categorySchemas.createCategory),
     categoryController.createCategory
 );
 
@@ -109,7 +107,7 @@ router.put(
         allowSameUser: true,
     } as AuthorizationOptions),
     profanityFilter(["name"]),
-    // validateRequest(categorySchemas.updateCategory),
+    validateRequest(categorySchemas.updateCategory),
     categoryController.updateCategory
 );
 
@@ -120,7 +118,6 @@ router.delete(
         hasRole: ["admin"],
         allowSameUser: true,
     } as AuthorizationOptions),
-    // validateRequest(categorySchemas.deleteCategory),
     categoryController.deleteCategory
 );
 

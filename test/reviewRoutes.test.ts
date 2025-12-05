@@ -37,6 +37,13 @@ jest.mock("../src/api/v1/middleware/authorize", () => {
     );
 });
 
+// Mocking validation, essentially bypassing the actual validation process by calling next()
+jest.mock("../src/api/v1/middleware/validate", () => ({
+    validateRequest: jest.fn(() => (_req: Request, _res: Response, next: NextFunction) =>
+        next()
+    ),
+}));
+
 describe("Review Routes", () => {
     afterEach(() => {
         jest.clearAllMocks();
