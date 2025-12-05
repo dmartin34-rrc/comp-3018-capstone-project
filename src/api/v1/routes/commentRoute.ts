@@ -178,7 +178,7 @@ router.put(
 /**
  * @openapi
  * /comments/id:
- *   get:
+ *   delete:
  *     summary: Delete a comment by specified id
  *     tags: [Comments]
  *     security:

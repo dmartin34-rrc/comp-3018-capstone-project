@@ -192,7 +192,7 @@
     },
     "/categories/id": {
       "get": {
-        "summary": "Delete a category by specified id",
+        "summary": "Retrieve a category by specified id",
         "tags": [
           "Categories"
         ],
@@ -214,7 +214,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Category",
+            "description": "A category",
             "content": {
               "application/json": {
                 "schema": {
@@ -274,7 +274,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/models/Category"
+                  "$ref": "#/components/schemas/Category"
                 }
               }
             }
@@ -284,6 +284,43 @@
           },
           "404": {
             "description": "Category not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a category by specified id",
+        "tags": [
+          "Categories"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the category"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Category",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -377,7 +414,7 @@
     },
     "/comments/id": {
       "get": {
-        "summary": "Delete a comment by specified id",
+        "summary": "Retrieve a comment by specified id",
         "tags": [
           "Comments"
         ],
@@ -399,7 +436,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Comment deleted",
+            "description": "A comment",
             "content": {
               "application/json": {
                 "schema": {
@@ -459,7 +496,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/models/Comment"
+                  "$ref": "#/components/schemas/Comment"
                 }
               }
             }
@@ -469,6 +506,43 @@
           },
           "404": {
             "description": "Comment not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a comment by specified id",
+        "tags": [
+          "Comments"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the comment"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comment deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Comment"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -574,7 +648,7 @@
     },
     "/reviews/id": {
       "get": {
-        "summary": "Delete a Review by specified id",
+        "summary": "Retrieve a review by specified id",
         "tags": [
           "Reviews"
         ],
@@ -591,12 +665,12 @@
             "schema": {
               "type": "string"
             },
-            "description": "The unique identifier of the Review"
+            "description": "The unique identifier of the review"
           }
         ],
         "responses": {
           "200": {
-            "description": "Review deleted",
+            "description": "A review",
             "content": {
               "application/json": {
                 "schema": {
@@ -666,7 +740,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/models/Review"
+                  "$ref": "#/components/schemas/Review"
                 }
               }
             }
@@ -676,6 +750,43 @@
           },
           "404": {
             "description": "Review not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a Review by specified id",
+        "tags": [
+          "Reviews"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the Review"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Review deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Review"
+                  }
+                }
+              }
+            }
           }
         }
       }

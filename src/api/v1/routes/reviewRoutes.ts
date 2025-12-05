@@ -196,7 +196,7 @@ router.put(
 /**
  * @openapi
  * /reviews/id:
- *   get:
+ *   delete:
  *     summary: Delete a Review by specified id
  *     tags: [Reviews]
  *     security:

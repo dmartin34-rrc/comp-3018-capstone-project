@@ -178,7 +178,7 @@ router.put(
 /**
  * @openapi
  * /categories/id:
- *   get:
+ *   delete:
  *     summary: Delete a category by specified id
  *     tags: [Categories]
  *     security:
