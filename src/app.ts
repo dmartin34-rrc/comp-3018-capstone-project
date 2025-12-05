@@ -18,6 +18,7 @@ import {
     errorLogger,
     consoleLogger,
 } from "./api/v1/middleware/logger";
+import adminRoutes from "../src/api/v1/routes/adminRoutes";
 
 // Initialize Express application
 const app: Express = express();
@@ -72,6 +73,7 @@ app.get("/api/v1/health", (req, res) => {
 app.use("/api/v1/reviews", reviewRoutes);
 app.use("/api/v1/comments", commentRoutes);
 app.use("/api/v1/categories", categoryRoutes);
+app.use("/api/v1/admin", adminRoutes);
 
 // Route Imports END
 
