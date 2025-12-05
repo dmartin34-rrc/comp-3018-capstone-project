@@ -47,6 +47,31 @@ router.get(
     categoryController.getAllCategories
 );
 
+/**
+ * @openapi
+ * /categories/id:
+ *   get:
+ *     summary: Retrieve a category by specified id
+ *     tags: [Categories]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The unique identifier of the category
+ *     responses:
+ *       200:
+ *         description: A category
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Category'
+ */
 router.get(
     "/:id",
     authenticate,
@@ -99,6 +124,45 @@ router.post(
     categoryController.createCategory
 );
 
+/**
+ * @openapi
+ * /categories/id:
+ *   put:
+ *     summary: Update a specific category's information
+ *     tags: [Categories]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The unique identifier of the category
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "Supernatural"
+ *     responses:
+ *       '200':
+ *         description: Category updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/models/Category'
+ *       '404':
+ *         description: Category not found
+ *       '403':
+ *         description: Not authorized to update this category
+ */
 router.put(
     "/:id",
     authenticate,
@@ -111,6 +175,31 @@ router.put(
     categoryController.updateCategory
 );
 
+/**
+ * @openapi
+ * /categories/id:
+ *   get:
+ *     summary: Delete a category by specified id
+ *     tags: [Categories]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The unique identifier of the category
+ *     responses:
+ *       200:
+ *         description: Category
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Category'
+ */
 router.delete(
     "/:id",
     authenticate,

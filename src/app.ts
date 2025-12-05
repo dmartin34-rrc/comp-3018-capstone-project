@@ -19,6 +19,7 @@ import {
     consoleLogger,
 } from "./api/v1/middleware/logger";
 import adminRoutes from "../src/api/v1/routes/adminRoutes";
+import userRoutes from "../src/api/v1/routes/userRoutes";
 
 // Initialize Express application
 const app: Express = express();
@@ -74,6 +75,7 @@ app.use("/api/v1/reviews", reviewRoutes);
 app.use("/api/v1/comments", commentRoutes);
 app.use("/api/v1/categories", categoryRoutes);
 app.use("/api/v1/admin", adminRoutes);
+app.use("/api/v1/users", userRoutes);
 
 // Route Imports END
 
