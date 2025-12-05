@@ -47,6 +47,31 @@ router.get(
     commentController.getAllComments
 );
 
+/**
+ * @openapi
+ * /comments/id:
+ *   get:
+ *     summary: Retrieve a comment by specified id
+ *     tags: [Comments]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The unique identifier of the comment
+ *     responses:
+ *       200:
+ *         description: A comment
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Comment'
+ */
 router.get(
     "/:id",
     authenticate,
@@ -99,6 +124,45 @@ router.post(
     commentController.createComment
 );
 
+/**
+ * @openapi
+ * /comments/id:
+ *   put:
+ *     summary: Update a specific comment's information
+ *     tags: [Comments]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The unique identifier of the comment
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - comment
+ *             properties:
+ *               comment:
+ *                 type: string
+ *                 example: "This movie is great!"
+ *     responses:
+ *       '200':
+ *         description: Comment updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/models/Comment'
+ *       '404':
+ *         description: Comment not found
+ *       '403':
+ *         description: Not authorized to update this comment
+ */
 router.put(
     "/:id",
     authenticate,
@@ -111,6 +175,31 @@ router.put(
     commentController.updateComment
 );
 
+/**
+ * @openapi
+ * /comments/id:
+ *   get:
+ *     summary: Delete a comment by specified id
+ *     tags: [Comments]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The unique identifier of the comment
+ *     responses:
+ *       200:
+ *         description: Comment deleted
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Comment'
+ */
 router.delete(
     "/:id",
     authenticate,

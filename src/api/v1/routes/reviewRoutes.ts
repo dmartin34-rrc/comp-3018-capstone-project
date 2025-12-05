@@ -47,6 +47,31 @@ router.get(
     reviewController.getAllReviews
 );
 
+/**
+ * @openapi
+ * /reviews/id:
+ *   get:
+ *     summary: Retrieve a review by specified id
+ *     tags: [Reviews]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The unique identifier of the review
+ *     responses:
+ *       200:
+ *         description: A review
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Review'
+ */
 router.get(
     "/:id",
     authenticate,
@@ -109,6 +134,53 @@ router.post(
     reviewController.createReview
 );
 
+/**
+ * @openapi
+ * /reviews/id:
+ *   put:
+ *     summary: Update a specific review's information
+ *     tags: [Reviews]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The unique identifier of the review
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - comment
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 minLength: 1
+ *                 maxLength: 50
+ *                 example: "Test Movie"
+ *               content:
+ *                 type: string
+ *                 example: "I love this movie so much"
+ *               rating:
+ *                 type: number
+ *                 example: 10
+ *     responses:
+ *       '200':
+ *         description: Review updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/models/Review'
+ *       '404':
+ *         description: Review not found
+ *       '403':
+ *         description: Not authorized to update this review
+ */
 router.put(
     "/:id",
     authenticate,
@@ -121,6 +193,31 @@ router.put(
     reviewController.updateReview
 );
 
+/**
+ * @openapi
+ * /reviews/id:
+ *   get:
+ *     summary: Delete a Review by specified id
+ *     tags: [Reviews]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The unique identifier of the Review
+ *     responses:
+ *       200:
+ *         description: Review deleted
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Review'
+ */
 router.delete(
     "/:id",
     authenticate,
