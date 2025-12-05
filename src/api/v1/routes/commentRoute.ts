@@ -1,6 +1,6 @@
 import express, { Router } from "express";
-// import { validateRequest } from "../middleware/validate";
-// import { commentSchemas } from "../validations/commentValidation";
+import { validateRequest } from "../middleware/validate";
+import { commentSchemas } from "../validations/commentValidation";
 import * as commentController from "../controllers/commentController";
 import authenticate from "../middleware/authenticate";
 import isAuthorized from "../middleware/authorize";
@@ -44,7 +44,6 @@ router.get(
         hasRole: ["user", "admin"],
         allowSameUser: true,
     } as AuthorizationOptions),
-    // validateRequest(commentSchemas.getAllComments),
     commentController.getAllComments
 );
 
@@ -55,7 +54,6 @@ router.get(
         hasRole: ["user", "admin"],
         allowSameUser: true,
     } as AuthorizationOptions),
-    // validateRequest(commentSchemas.getCommentById),
     commentController.getCommentById
 );
 
@@ -97,7 +95,7 @@ router.post(
         allowSameUser: true,
     } as AuthorizationOptions),
     profanityFilter(["comment"]),
-    // validateRequest(commentSchemas.createComment),
+    validateRequest(commentSchemas.createComment),
     commentController.createComment
 );
 
@@ -109,7 +107,7 @@ router.put(
         allowSameUser: true,
     } as AuthorizationOptions),
     profanityFilter(["comment"]),
-    // validateRequest(commentSchemas.updateComment),
+    validateRequest(commentSchemas.updateComment),
     commentController.updateComment
 );
 
@@ -120,7 +118,6 @@ router.delete(
         hasRole: ["admin"],
         allowSameUser: true,
     } as AuthorizationOptions),
-    // validateRequest(commentSchemas.deleteComment),
     commentController.deleteComment
 );
 
