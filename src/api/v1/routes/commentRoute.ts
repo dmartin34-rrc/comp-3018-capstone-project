@@ -157,7 +157,7 @@ router.post(
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/models/Comment'
+ *               $ref: '#/components/schemas/Comment'
  *       '404':
  *         description: Comment not found
  *       '403':

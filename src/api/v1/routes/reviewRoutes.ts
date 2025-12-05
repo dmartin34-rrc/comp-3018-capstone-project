@@ -175,7 +175,7 @@ router.post(
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/models/Review'
+ *               $ref: '#/components/schemas/Review'
  *       '404':
  *         description: Review not found
  *       '403':

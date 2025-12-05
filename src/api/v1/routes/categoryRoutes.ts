@@ -157,7 +157,7 @@ router.post(
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/models/Category'
+ *               $ref: '#/components/schemas/Category'
  *       '404':
  *         description: Category not found
  *       '403':
